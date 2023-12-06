@@ -1,4 +1,4 @@
-package no.fintlabs.journalpost;
+package no.fintlabs.instance.gateway.example.simple;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -11,13 +11,11 @@ import javax.validation.constraints.NotNull;
 @Jacksonized
 @EqualsAndHashCode
 @Builder
-public class JournalpostDokument {
+public class IncomingInstance {
     @NotNull
-    private final String tittel;
+    private final Integer integerValue1;
     @NotNull
-    private final Boolean hoveddokument;
-    @NotNull
-    private final String filnavn;
-    @NotNull
-    private final String dokumentBase64;
+    private final String stringValue1;
+    private final String stringValue2;
+    private final String stringValue3;
 }

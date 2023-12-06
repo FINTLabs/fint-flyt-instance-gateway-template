@@ -7,9 +7,7 @@ fint:
         api:
           external:
             enabled: true
-            authorized-client-ids: 2
-    sourceapplication:
-      checkSaksansvarligEpost: false
+            authorized-client-ids: 3
   kafka:
     default-replicas: 1
 spring:

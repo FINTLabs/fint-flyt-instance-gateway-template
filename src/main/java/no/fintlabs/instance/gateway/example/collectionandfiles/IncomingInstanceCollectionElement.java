@@ -1,4 +1,4 @@
-package no.fintlabs.sak;
+package no.fintlabs.instance.gateway.example.collectionandfiles;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -11,11 +11,11 @@ import javax.validation.constraints.NotNull;
 @Jacksonized
 @EqualsAndHashCode
 @Builder
-public class SakObject {
+public class IncomingInstanceCollectionElement {
     @NotNull
-    private final String felt1;
+    private final String stringValue;
     @NotNull
-    private final String felt2;
+    private final String filename;
     @NotNull
-    private final String felt3;
+    private final String fileContentBase64;
 }
