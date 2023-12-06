@@ -7,7 +7,7 @@ This template serves as a skeleton gateway with example code for creating specif
 To use this template, you need to customize it according to your specific requirements. Follow the steps below to configure and deploy your instance of the gateway.
 
 ### Rename `sourceApplication`
-The `sourceApplication` parameter represents the data source sending information to this gateway (e.g., `egrunnerverv`, `acos`, `rf13.50`, etc.). Rename it throughout the project to reflect your specific source application.
+The `sourceApplication` represents the data source sending information to this gateway (e.g., `egrunnerverv`, `acos`, `rf13.50`, etc.). Rename it throughout the project to reflect your specific source application.
 
 - **Example**: Rename `fint-flyt-sourceapplication-instance-gateway` to `fint-flyt-rf1350-instance-gateway`.
 
