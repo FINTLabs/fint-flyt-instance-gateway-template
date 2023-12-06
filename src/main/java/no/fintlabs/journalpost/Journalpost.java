@@ -14,7 +14,7 @@ import java.util.List;
 @Jacksonized
 @EqualsAndHashCode
 @Builder
-public class JournalpostInstance {
+public class Journalpost {
     @NotNull
     private final String id;
     @NotNull
@@ -24,5 +24,5 @@ public class JournalpostInstance {
     @NotNull
     private final String felt3;
     @NotNull
-    private final List<@Valid @NotNull JournalpostDocument> dokumenter;
+    private final List<@Valid @NotNull JournalpostDokument> dokumenter;
 }

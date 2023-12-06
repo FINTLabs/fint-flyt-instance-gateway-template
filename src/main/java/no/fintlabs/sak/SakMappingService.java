@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class SakInstanceMappingService implements InstanceMapper<SakInstance> {
+public class SakMappingService implements InstanceMapper<Sak> {
 
     @Value("${fint.flyt.sourceapplication.checkSaksansvarligEpost:true}")
     boolean checkSaksansvarligEpost;
@@ -21,18 +21,18 @@ public class SakInstanceMappingService implements InstanceMapper<SakInstance> {
     @Value("${fint.org-id}")
     private String orgId;
 
-    public SakInstanceMappingService(
+    public SakMappingService(
     ) {
     }
 
     @Override
-    public Mono<InstanceObject> map(Long sourceApplicationId, SakInstance sakInstance) {
-        Map<String, String> valuePerKey = getStringStringMap(sakInstance);
+    public Mono<InstanceObject> map(Long sourceApplicationId, Sak sak) {
+        Map<String, String> valuePerKey = getStringStringMap(sak);
         return Mono.just(
                 InstanceObject.builder()
                         .valuePerKey(valuePerKey)
                         .objectCollectionPerKey(Map.of(
-                                "sak_samling", sakInstance.getSamling()
+                                "sak_samling", sak.getSakObjekter()
                                         .stream()
                                         .map(this::toInstanceObject)
                                         .toList()
@@ -41,22 +41,22 @@ public class SakInstanceMappingService implements InstanceMapper<SakInstance> {
         );
     }
 
-    private static Map<String, String> getStringStringMap(SakInstance sakInstance) {
+    private static Map<String, String> getStringStringMap(Sak sak) {
         Map<String, String> valuePerKey = new HashMap<>();
-        valuePerKey.put("sys_id", sakInstance.getId());
-        valuePerKey.put("felt_1", sakInstance.getFelt1());
-        valuePerKey.put("felt_2", sakInstance.getFelt2());
-        valuePerKey.put("felt_3", sakInstance.getFelt3());
+        valuePerKey.put("sys_id", sak.getId());
+        valuePerKey.put("felt_1", sak.getFelt1());
+        valuePerKey.put("felt_2", sak.getFelt2());
+        valuePerKey.put("felt_3", sak.getFelt3());
         return valuePerKey;
     }
 
-    private InstanceObject toInstanceObject(SakSamling sakSamling) {
+    private InstanceObject toInstanceObject(SakObject sakObject) {
         return InstanceObject
                 .builder()
                 .valuePerKey(Map.of(
-                        "samlingsfelt_1", sakSamling.getFelt1(),
-                        "samlingsfelt_2", sakSamling.getFelt2(),
-                        "samlingsfelt_3", sakSamling.getFelt3()
+                        "samlingsfelt_1", sakObject.getFelt1(),
+                        "samlingsfelt_2", sakObject.getFelt2(),
+                        "samlingsfelt_3", sakObject.getFelt3()
                 ))
                 .build();
     }

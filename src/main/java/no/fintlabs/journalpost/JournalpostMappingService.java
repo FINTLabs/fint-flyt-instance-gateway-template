@@ -14,27 +14,27 @@ import reactor.util.function.Tuple2;
 import java.util.*;
 
 @Service
-public class JournalpostInstanceMappingService implements InstanceMapper<JournalpostInstance> {
+public class JournalpostMappingService implements InstanceMapper<Journalpost> {
 
     private final FileClient fileClient;
 
-    public JournalpostInstanceMappingService(
+    public JournalpostMappingService(
             FileClient fileClient
     ) {
         this.fileClient = fileClient;
     }
 
     @Override
-    public Mono<InstanceObject> map(Long sourceApplicationId, JournalpostInstance journalpostInstance) {
+    public Mono<InstanceObject> map(Long sourceApplicationId, Journalpost journalpost) {
 
-        JournalpostDocument hoveddokument = journalpostInstance
+        JournalpostDokument hoveddokument = journalpost
                 .getDokumenter()
                 .stream()
-                .filter(JournalpostDocument::getHoveddokument)
+                .filter(JournalpostDokument::getHoveddokument)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No hoveddokument"));
 
-        List<JournalpostDocument> vedlegg = journalpostInstance
+        List<JournalpostDokument> vedlegg = journalpost
                 .getDokumenter()
                 .stream()
                 .filter(dokument -> !dokument.getHoveddokument())
@@ -42,12 +42,12 @@ public class JournalpostInstanceMappingService implements InstanceMapper<Journal
 
         Mono<Map<String, String>> hoveddokumentInstanceValuePerKeyMono = mapHoveddokumentToInstanceValuePerKey(
                 sourceApplicationId,
-                journalpostInstance.getId(),
+                journalpost.getId(),
                 hoveddokument
         );
         Mono<List<InstanceObject>> vedleggInstanceObjectsMono = mapAttachmentDocumentsToInstanceObjects(
                 sourceApplicationId,
-                journalpostInstance.getId(),
+                journalpost.getId(),
                 vedlegg
         );
 
@@ -57,7 +57,7 @@ public class JournalpostInstanceMappingService implements InstanceMapper<Journal
                 )
                 .map((Tuple2<Map<String, String>, List<InstanceObject>> hovedDokumentValuePerKeyAndVedleggInstanceObjects) -> {
 
-                            HashMap<String, String> valuePerKey = getStringStringHashMap(journalpostInstance);
+                            HashMap<String, String> valuePerKey = getStringStringHashMap(journalpost);
 
                             valuePerKey.putAll(hovedDokumentValuePerKeyAndVedleggInstanceObjects.getT1());
                             return InstanceObject.builder()
@@ -72,58 +72,58 @@ public class JournalpostInstanceMappingService implements InstanceMapper<Journal
                 );
     }
 
-    private static HashMap<String, String> getStringStringHashMap(JournalpostInstance journalpostInstance) {
+    private static HashMap<String, String> getStringStringHashMap(Journalpost journalpost) {
         HashMap<String, String> valuePerKey = new HashMap<>();
-        valuePerKey.put("id", Optional.ofNullable(journalpostInstance.getId()).orElse(""));
-        valuePerKey.put("felt1", Optional.ofNullable(journalpostInstance.getFelt1()).orElse(""));
-        valuePerKey.put("felt2", Optional.ofNullable(journalpostInstance.getFelt2()).orElse(""));
-        valuePerKey.put("felt3", Optional.ofNullable(journalpostInstance.getFelt3()).orElse(""));
+        valuePerKey.put("id", Optional.ofNullable(journalpost.getId()).orElse(""));
+        valuePerKey.put("felt1", Optional.ofNullable(journalpost.getFelt1()).orElse(""));
+        valuePerKey.put("felt2", Optional.ofNullable(journalpost.getFelt2()).orElse(""));
+        valuePerKey.put("felt3", Optional.ofNullable(journalpost.getFelt3()).orElse(""));
         return valuePerKey;
     }
 
     private Mono<List<InstanceObject>> mapAttachmentDocumentsToInstanceObjects(
             Long sourceApplicationId,
             String sourceApplicationInstanceId,
-            List<JournalpostDocument> journalpostDocuments
+            List<JournalpostDokument> journalpostDokuments
     ) {
-        return Flux.fromIterable(journalpostDocuments)
-                .flatMap(journalpostDocument -> mapAttachmentDocumentToInstanceObject(
-                        sourceApplicationId, sourceApplicationInstanceId, journalpostDocument
+        return Flux.fromIterable(journalpostDokuments)
+                .flatMap(journalpostDokument -> mapAttachmentDocumentToInstanceObject(
+                        sourceApplicationId, sourceApplicationInstanceId, journalpostDokument
                 ))
                 .collectList();
     }
 
-    private MediaType getMediaType(JournalpostDocument journalpostDocument) {
-        return MediaTypeFactory.getMediaType(journalpostDocument.getFilnavn())
+    private MediaType getMediaType(JournalpostDokument journalpostDokument) {
+        return MediaTypeFactory.getMediaType(journalpostDokument.getFilnavn())
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "No media type found for fileName=" + journalpostDocument.getFilnavn()
+                        "No media type found for fileName=" + journalpostDokument.getFilnavn()
                 ));
     }
 
     private Mono<Map<String, String>> mapHoveddokumentToInstanceValuePerKey(
             Long sourceApplicationId,
             String sourceApplicationInstanceId,
-            JournalpostDocument journalpostDocument
+            JournalpostDokument journalpostDokument
     ) {
-        MediaType mediaType = getMediaType(journalpostDocument);
+        MediaType mediaType = getMediaType(journalpostDokument);
         File file = toFile(
                 sourceApplicationId,
                 sourceApplicationInstanceId,
-                journalpostDocument,
+                journalpostDokument,
                 mediaType
         );
         return fileClient.postFile(file)
-                .map(fileId -> mapHoveddokumentAndFileIdToInstanceValuePerKey(journalpostDocument, mediaType, fileId));
+                .map(fileId -> mapHoveddokumentAndFileIdToInstanceValuePerKey(journalpostDokument, mediaType, fileId));
     }
 
     private Map<String, String> mapHoveddokumentAndFileIdToInstanceValuePerKey(
-            JournalpostDocument journalpostDocument,
+            JournalpostDokument journalpostDokument,
             MediaType mediaType,
             UUID fileId
     ) {
         return Map.of(
-                "hoveddokumentTittel", Optional.ofNullable(journalpostDocument.getTittel()).orElse(""),
-                "hoveddokumentFilnavn", Optional.ofNullable(journalpostDocument.getFilnavn()).orElse(""),
+                "hoveddokumentTittel", Optional.ofNullable(journalpostDokument.getTittel()).orElse(""),
+                "hoveddokumentFilnavn", Optional.ofNullable(journalpostDokument.getFilnavn()).orElse(""),
                 "hoveddokumentMediatype", mediaType.toString(),
                 "hoveddokumentFil", fileId.toString()
         );
@@ -132,24 +132,24 @@ public class JournalpostInstanceMappingService implements InstanceMapper<Journal
     private Mono<InstanceObject> mapAttachmentDocumentToInstanceObject(
             Long sourceApplicationId,
             String sourceApplicationInstanceId,
-            JournalpostDocument journalpostDocument
+            JournalpostDokument journalpostDokument
     ) {
-        MediaType mediaType = getMediaType(journalpostDocument);
+        MediaType mediaType = getMediaType(journalpostDokument);
         File file = toFile(
                 sourceApplicationId,
                 sourceApplicationInstanceId,
-                journalpostDocument,
+                journalpostDokument,
                 mediaType
         );
         return fileClient.postFile(file)
                 .map(fileId -> mapAttachmentDocumentAndFileIdToInstanceObject(
-                        journalpostDocument,
+                        journalpostDokument,
                         mediaType,
                         fileId));
     }
 
     private InstanceObject mapAttachmentDocumentAndFileIdToInstanceObject(
-            JournalpostDocument journalpostDocument,
+            JournalpostDokument journalpostDokument,
             MediaType mediaType,
             UUID fileId
     ) {
@@ -157,8 +157,8 @@ public class JournalpostInstanceMappingService implements InstanceMapper<Journal
         return InstanceObject
                 .builder()
                 .valuePerKey(Map.of(
-                        "tittel", Optional.ofNullable(journalpostDocument.getTittel()).orElse(""),
-                        "filnavn", Optional.ofNullable(journalpostDocument.getFilnavn()).orElse(""),
+                        "tittel", Optional.ofNullable(journalpostDokument.getTittel()).orElse(""),
+                        "filnavn", Optional.ofNullable(journalpostDokument.getFilnavn()).orElse(""),
                         "mediatype", mediaType.toString(),
                         "fil", fileId.toString()
                 ))
@@ -168,17 +168,17 @@ public class JournalpostInstanceMappingService implements InstanceMapper<Journal
     private File toFile(
             Long sourceApplicationId,
             String sourceApplicationInstanceId,
-            JournalpostDocument journalpostDocument,
+            JournalpostDokument journalpostDokument,
             MediaType type
     ) {
         return File
                 .builder()
-                .name(journalpostDocument.getFilnavn())
+                .name(journalpostDokument.getFilnavn())
                 .type(type)
                 .sourceApplicationId(sourceApplicationId)
                 .sourceApplicationInstanceId(sourceApplicationInstanceId)
                 .encoding("UTF-8")
-                .base64Contents(journalpostDocument.getDokumentBase64())
+                .base64Contents(journalpostDokument.getDokumentBase64())
                 .build();
     }
 

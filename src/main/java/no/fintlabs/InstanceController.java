@@ -1,8 +1,8 @@
 package no.fintlabs;
 
 import no.fintlabs.gateway.instance.InstanceProcessor;
-import no.fintlabs.journalpost.JournalpostInstance;
-import no.fintlabs.sak.SakInstance;
+import no.fintlabs.journalpost.Journalpost;
+import no.fintlabs.sak.Sak;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,12 +18,12 @@ import static no.fintlabs.resourceserver.UrlPaths.EXTERNAL_API;
 @RequestMapping(EXTERNAL_API + "/sourceapplication/instances")
 public class InstanceController {
 
-    private final InstanceProcessor<SakInstance> sakInstanceProcessor;
-    private final InstanceProcessor<JournalpostInstance> journalpostInstanceProcessor;
+    private final InstanceProcessor<Sak> sakInstanceProcessor;
+    private final InstanceProcessor<Journalpost> journalpostInstanceProcessor;
 
     public InstanceController(
-            InstanceProcessor<SakInstance> sakInstanceProcessor,
-            InstanceProcessor<JournalpostInstance> journalpostInstanceProcessor
+            InstanceProcessor<Sak> sakInstanceProcessor,
+            InstanceProcessor<Journalpost> journalpostInstanceProcessor
     ) {
         this.sakInstanceProcessor = sakInstanceProcessor;
         this.journalpostInstanceProcessor = journalpostInstanceProcessor;
@@ -32,26 +32,26 @@ public class InstanceController {
 
     @PostMapping("sak")
     public Mono<ResponseEntity<?>> postSakInstance(
-            @RequestBody SakInstance sakInstance,
+            @RequestBody Sak sak,
             @AuthenticationPrincipal Mono<Authentication> authenticationMono
     ) {
         return authenticationMono.flatMap(
                 authentication -> sakInstanceProcessor.processInstance(
                         authentication,
-                        sakInstance
+                        sak
                 )
         );
     }
 
     @PostMapping("journalpost")
     public Mono<ResponseEntity<?>> postJournalpostInstance(
-            @RequestBody JournalpostInstance journalpostInstance,
+            @RequestBody Journalpost journalpost,
             @AuthenticationPrincipal Mono<Authentication> authenticationMono
     ) {
         return authenticationMono.flatMap(
                 authentication -> journalpostInstanceProcessor.processInstance(
                         authentication,
-                        journalpostInstance
+                        journalpost
                 )
         );
     }

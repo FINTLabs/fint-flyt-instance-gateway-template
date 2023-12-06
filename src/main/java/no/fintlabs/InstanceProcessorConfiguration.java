@@ -2,10 +2,10 @@ package no.fintlabs;
 
 import no.fintlabs.gateway.instance.InstanceProcessor;
 import no.fintlabs.gateway.instance.InstanceProcessorFactoryService;
-import no.fintlabs.journalpost.JournalpostInstance;
-import no.fintlabs.journalpost.JournalpostInstanceMappingService;
-import no.fintlabs.sak.SakInstance;
-import no.fintlabs.sak.SakInstanceMappingService;
+import no.fintlabs.journalpost.Journalpost;
+import no.fintlabs.journalpost.JournalpostMappingService;
+import no.fintlabs.sak.Sak;
+import no.fintlabs.sak.SakMappingService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,28 +15,28 @@ import java.util.Optional;
 public class InstanceProcessorConfiguration {
 
     @Bean
-    public InstanceProcessor<SakInstance> sakInstanceProcessor(
+    public InstanceProcessor<Sak> sakInstanceProcessor(
             InstanceProcessorFactoryService instanceProcessorFactoryService,
-            SakInstanceMappingService sakInstanceMappingService
+            SakMappingService sakMappingService
     ) {
         return instanceProcessorFactoryService.createInstanceProcessor(
                 "sak",
-                sakInstance -> Optional.ofNullable(sakInstance.getId()),
-                sakInstanceMappingService
+                sak -> Optional.ofNullable(sak.getId()),
+                sakMappingService
         );
     }
 
     @Bean
-    public InstanceProcessor<JournalpostInstance> journalpostInstanceProcessor(
+    public InstanceProcessor<Journalpost> journalpostInstanceProcessor(
             InstanceProcessorFactoryService instanceProcessorFactoryService,
-            JournalpostInstanceMappingService egrunnervervJournalpostInstanceMappingService
+            JournalpostMappingService egrunnervervJournalpostMappingService
     ) {
         return instanceProcessorFactoryService.createInstanceProcessor(
                 "journalpost",
-                egrunnervervJournalpostInstance -> Optional.ofNullable(
-                        egrunnervervJournalpostInstance.getId()
+                egrunnervervJournalpost -> Optional.ofNullable(
+                        egrunnervervJournalpost.getId()
                 ),
-                egrunnervervJournalpostInstanceMappingService
+                egrunnervervJournalpostMappingService
         );
     }
 
