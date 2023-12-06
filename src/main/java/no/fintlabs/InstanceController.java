@@ -16,12 +16,12 @@ import static no.fintlabs.resourceserver.UrlPaths.EXTERNAL_API;
 
 @RestController
 @RequestMapping(EXTERNAL_API + "/sourceapplication/instances")
-public class SourceApplicationInstanceController {
+public class InstanceController {
 
     private final InstanceProcessor<SakInstance> sakInstanceProcessor;
     private final InstanceProcessor<JournalpostInstance> journalpostInstanceProcessor;
 
-    public SourceApplicationInstanceController(
+    public InstanceController(
             InstanceProcessor<SakInstance> sakInstanceProcessor,
             InstanceProcessor<JournalpostInstance> journalpostInstanceProcessor
     ) {
