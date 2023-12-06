@@ -22,6 +22,7 @@ Adjust the following setting in the `base/flais.yaml`:
 Configure the application settings in `src/main/resources/application-local-staging.yaml`:
   - **`server.port`**:
   - When testing locally, select server port 81xx where xx is the sourceApplicationId (with leading zero) e.g. if sourceApplicationId is 3, the port would be 8103
+  - also change `fint.flyt.resource-server.security.api.external.authorized-client-ids` here
 
 ### Processing instances
 You need to create an InstanceProcessor for each instance model that is to be processed. This is done using InstanceProcessorFactoryService. See example code in InstanceProcessorConfiguration.
