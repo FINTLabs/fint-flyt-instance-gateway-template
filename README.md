@@ -1,7 +1,7 @@
 # FINT FLYT INSTANCE GATEWAY TEMPLATE
 
 ## Overview
-This template serves as a skeleton gateway with example code for creating specific instance-gateways in FINT Flyt. Its primary function is to handle POST requests containing data, which is then processed and published to other microservices through Kafka.
+This template serves as a skeleton gateway with example code for creating specific instance-gateways in FINT Flyt. Its primary function is to handle POST requests containing data, which is then processed and published to other microservices through Kafka inside the FINT Flyt infrastructure.
 
 ## Getting Started
 To use this template, you need to customize it according to your specific requirements. Follow the steps below to configure and deploy your instance of the gateway.
