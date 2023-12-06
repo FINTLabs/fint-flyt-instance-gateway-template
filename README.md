@@ -21,7 +21,7 @@ Adjust the following setting in the `base/flais.yaml`:
 ### Application Configuration
 Configure the application settings in `src/main/resources/application-local-staging.yaml`:
   - **`server.port`**:
-  - When testing locally, select a server port in the range reserved for instance-gateways (8100-8199)
+  - When testing locally, select server port 81xx where xx is the sourceApplicationId (with leading zero) e.g. if sourceApplicationId is 3, the port would be 8103
 
 ## Additional Documentation
 For more detailed instructions on setting up and deploying your instance of the FINT FLYT gateway, refer to the documentation:
