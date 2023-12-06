@@ -15,7 +15,7 @@ The `sourceApplication` represents the data source sending information to this g
 Adjust the following setting in the `base/flais.yaml`:
 **`fint.flyt.resource-server.security.api.external.authorized-client-ids`**:
    - Set the `sourceApplicationId` provided by `fint-flyt-authorization-service` (the value should be an integer).
-   - it ensures that requests coming from a specific client-id will only be allowed in if the ID it what `fint-flyt-authorization-service` says it should be.
+   - it ensures that requests coming from a specific client-id will only be allowed in if the ID is what `fint-flyt-authorization-service` says it should be.
    - this ID will be passed through FINT Flyt to ensure the data package received by this gateway belongs to the given SourceApplication
 
 ### Application Configuration
