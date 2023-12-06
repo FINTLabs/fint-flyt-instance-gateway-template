@@ -2,6 +2,8 @@ package no.fintlabs;
 
 import no.fintlabs.gateway.instance.InstanceProcessor;
 import no.fintlabs.gateway.instance.InstanceProcessorFactoryService;
+import no.fintlabs.journalpost.JournalpostInstance;
+import no.fintlabs.journalpost.JournalpostInstanceMappingService;
 import no.fintlabs.sak.SakInstance;
 import no.fintlabs.sak.SakInstanceMappingService;
 import org.springframework.context.annotation.Bean;
@@ -24,19 +26,19 @@ public class InstanceProcessorConfiguration {
         );
     }
 
-//    @Bean
-//    public InstanceProcessor<EgrunnervervJournalpostInstance> journalpostInstanceProcessor(
-//            InstanceProcessorFactoryService instanceProcessorFactoryService,
-//            EgrunnervervJournalpostInstanceMappingService egrunnervervJournalpostInstanceMappingService
-//    ) {
-//        return instanceProcessorFactoryService.createInstanceProcessor(
-//                "journalpost",
-//                egrunnervervJournalpostInstance -> Optional.ofNullable(
-//                        egrunnervervJournalpostInstance.getEgrunnervervJournalpostInstanceBody().getSysId()
-//                ),
-//                egrunnervervJournalpostInstanceMappingService
-//        );
-//    }
+    @Bean
+    public InstanceProcessor<JournalpostInstance> journalpostInstanceProcessor(
+            InstanceProcessorFactoryService instanceProcessorFactoryService,
+            JournalpostInstanceMappingService egrunnervervJournalpostInstanceMappingService
+    ) {
+        return instanceProcessorFactoryService.createInstanceProcessor(
+                "journalpost",
+                egrunnervervJournalpostInstance -> Optional.ofNullable(
+                        egrunnervervJournalpostInstance.getId()
+                ),
+                egrunnervervJournalpostInstanceMappingService
+        );
+    }
 
 
 }

@@ -19,14 +19,14 @@ public class SourceapplicationInstanceController {
 
 
     private final InstanceProcessor<SakInstance> sakInstanceProcessor;
-//    private final InstanceProcessor<JournalpostInstance> journalpostInstanceProcessor;
+    private final InstanceProcessor<JournalpostInstance> journalpostInstanceProcessor;
 
     public SourceapplicationInstanceController(
-            InstanceProcessor<SakInstance> sakInstanceProcessor
-//            InstanceProcessor<JournalpostInstance> journalpostInstanceProcessor
+            InstanceProcessor<SakInstance> sakInstanceProcessor,
+            InstanceProcessor<JournalpostInstance> journalpostInstanceProcessor
     ) {
         this.sakInstanceProcessor = sakInstanceProcessor;
-//        this.journalpostInstanceProcessor = journalpostInstanceProcessor;
+        this.journalpostInstanceProcessor = journalpostInstanceProcessor;
     }
 
 
@@ -43,17 +43,17 @@ public class SourceapplicationInstanceController {
         );
     }
 
-//    @PostMapping("journalpost")
-//    public Mono<ResponseEntity<?>> postJournalpostInstance(
-//            @RequestBody JournalpostInstance journalpostInstance,
-//            @AuthenticationPrincipal Mono<Authentication> authenticationMono
-//    ) {
-//        return authenticationMono.flatMap(
-//                authentication -> journalpostInstanceProcessor.processInstance(
-//                        authentication,
-//                        journalpostInstance
-//                )
-//        );
-//    }
+    @PostMapping("journalpost")
+    public Mono<ResponseEntity<?>> postJournalpostInstance(
+            @RequestBody JournalpostInstance journalpostInstance,
+            @AuthenticationPrincipal Mono<Authentication> authenticationMono
+    ) {
+        return authenticationMono.flatMap(
+                authentication -> journalpostInstanceProcessor.processInstance(
+                        authentication,
+                        journalpostInstance
+                )
+        );
+    }
 
 }

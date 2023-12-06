@@ -1,4 +1,4 @@
-package no.fintlabs.sak;
+package no.fintlabs.journalpost;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -11,11 +11,13 @@ import javax.validation.constraints.NotNull;
 @Jacksonized
 @EqualsAndHashCode
 @Builder
-public class SakSamling {
+public class JournalpostDocument {
     @NotNull
-    private final String felt1;
+    private final String tittel;
     @NotNull
-    private final String felt2;
+    private final Boolean hoveddokument;
     @NotNull
-    private final String felt3;
+    private final String filnavn;
+    @NotNull
+    private final String dokumentBase64;
 }
