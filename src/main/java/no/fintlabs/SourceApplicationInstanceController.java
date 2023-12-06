@@ -1,27 +1,27 @@
 package no.fintlabs;
 
-import lombok.extern.slf4j.Slf4j;
 import no.fintlabs.gateway.instance.InstanceProcessor;
 import no.fintlabs.journalpost.JournalpostInstance;
 import no.fintlabs.sak.SakInstance;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 import static no.fintlabs.resourceserver.UrlPaths.EXTERNAL_API;
 
 @RestController
-@RequestMapping(EXTERNAL_API + "/sourceapplication/instances/{orgNr}")
-@Slf4j
-public class SourceapplicationInstanceController {
-
+@RequestMapping(EXTERNAL_API + "/sourceapplication/instances")
+public class SourceApplicationInstanceController {
 
     private final InstanceProcessor<SakInstance> sakInstanceProcessor;
     private final InstanceProcessor<JournalpostInstance> journalpostInstanceProcessor;
 
-    public SourceapplicationInstanceController(
+    public SourceApplicationInstanceController(
             InstanceProcessor<SakInstance> sakInstanceProcessor,
             InstanceProcessor<JournalpostInstance> journalpostInstanceProcessor
     ) {
