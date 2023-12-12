@@ -26,7 +26,7 @@ Configure the application settings in `src/main/resources/application-local-stag
 
 ### Processing instances
 You need to create an InstanceProcessor for each instance model that is to be processed. This is done using InstanceProcessorFactoryService. See example code in InstanceProcessorConfiguration.
-When creating an InstanceProcessor, you need to provide an implementation of InstanceMapper. The mapper is used to convert the incoming model to the internal InstanceObject model in Fint Flyt. See example code in SakMappingService.
+When creating an InstanceProcessor, you need to provide an implementation of InstanceMapper. The mapper is used to convert the incoming model to the internal InstanceObject model in Fint Flyt. See example code in IncomingInstanceMappingService.
 
 ## Additional Documentation
 For more detailed instructions on setting up and deploying your instance of the FINT FLYT gateway, refer to the documentation:
