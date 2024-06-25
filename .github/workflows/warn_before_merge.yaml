@@ -4,20 +4,18 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened, reopened]
+    types: [opened, reopened, synchronize]
 
 jobs:
   warn_before_merge:
     runs-on: ubuntu-latest
-    if: github.event.action == 'opened' || github.event.action == 'reopened'
     steps:
-      - name: Comment Warning
+      - name: Check and Post Warning
         uses: actions/github-script@v7
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const message = `:warning: **Warning:** You are about to merge into the main branch. Please ensure you have double-checked your changes!`;
-            // Example: Check if a similar message has already been posted
             const comments = await github.rest.issues.listComments({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -31,4 +29,4 @@ jobs:
                 repo: context.repo.repo,
                 body: message
               });
-
+            }
