@@ -1,0 +1,24 @@
+name: Warning Before Merge
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, reopened, synchronize]
+
+jobs:
+  warn_before_merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment Warning
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const message = `:warning: **Warning:** You are about to merge into the main branch. Please ensure you have double-checked your changes!`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
