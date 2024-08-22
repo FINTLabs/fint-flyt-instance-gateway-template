@@ -40,4 +40,3 @@ https://fintlabs.atlassian.net/wiki/spaces/FINTKB/pages/379355169/FINT+Flyt+Arki
 
 This is also where you document the SourceApplication (data models, requests, endpoints etc)
 
-
