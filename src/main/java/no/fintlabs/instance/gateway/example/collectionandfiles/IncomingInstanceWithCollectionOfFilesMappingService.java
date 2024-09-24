@@ -3,7 +3,6 @@ package no.fintlabs.instance.gateway.example.collectionandfiles;
 import no.fintlabs.gateway.instance.InstanceMapper;
 import no.fintlabs.gateway.instance.model.File;
 import no.fintlabs.gateway.instance.model.instance.InstanceObject;
-import no.fintlabs.gateway.instance.web.FileClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.stereotype.Service;
@@ -11,24 +10,19 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.*;
+import java.util.function.Function;
 
 @Service
 public class IncomingInstanceWithCollectionOfFilesMappingService implements InstanceMapper<IncomingInstanceWithCollectionOfFiles> {
 
-    private final FileClient fileClient;
-
-    public IncomingInstanceWithCollectionOfFilesMappingService(
-            FileClient fileClient
-    ) {
-        this.fileClient = fileClient;
-    }
-
     @Override
     public Mono<InstanceObject> map(
             Long sourceApplicationId,
-            IncomingInstanceWithCollectionOfFiles incomingInstanceWithCollectionOfFiles
+            IncomingInstanceWithCollectionOfFiles incomingInstanceWithCollectionOfFiles,
+            Function<File, Mono<UUID>> persistFile
     ) {
         return mapCollectionElementsToInstanceObjects(
+                persistFile,
                 sourceApplicationId,
                 incomingInstanceWithCollectionOfFiles.getStringValue1(),
                 incomingInstanceWithCollectionOfFiles.getElementCollection1()
@@ -55,12 +49,14 @@ public class IncomingInstanceWithCollectionOfFilesMappingService implements Inst
     }
 
     private Mono<List<InstanceObject>> mapCollectionElementsToInstanceObjects(
+            Function<File, Mono<UUID>> persistFile,
             Long sourceApplicationId,
             String sourceApplicationInstanceId,
             List<IncomingInstanceCollectionElement> incomingInstanceCollectionElements
     ) {
         return Flux.fromIterable(incomingInstanceCollectionElements)
                 .flatMap(incomingInstanceCollectionElement -> postFile(
+                                persistFile,
                                 sourceApplicationId,
                                 sourceApplicationInstanceId,
                                 incomingInstanceCollectionElement
@@ -80,6 +76,7 @@ public class IncomingInstanceWithCollectionOfFilesMappingService implements Inst
     }
 
     private Mono<UUID> postFile(
+            Function<File, Mono<UUID>> persistFile,
             Long sourceApplicationId,
             String sourceApplicationInstanceId,
             IncomingInstanceCollectionElement incomingInstanceCollectionElement
@@ -91,7 +88,7 @@ public class IncomingInstanceWithCollectionOfFilesMappingService implements Inst
                 incomingInstanceCollectionElement,
                 mediaType
         );
-        return fileClient.postFile(file);
+        return persistFile.apply(file);
     }
 
     private InstanceObject mapCollectionElementAndFileIdToInstanceObject(
