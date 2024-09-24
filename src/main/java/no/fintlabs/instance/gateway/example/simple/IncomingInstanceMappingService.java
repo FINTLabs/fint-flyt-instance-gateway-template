@@ -1,17 +1,24 @@
 package no.fintlabs.instance.gateway.example.simple;
 
 import no.fintlabs.gateway.instance.InstanceMapper;
+import no.fintlabs.gateway.instance.model.File;
 import no.fintlabs.gateway.instance.model.instance.InstanceObject;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+import java.util.function.Function;
 
 @Service
 public class IncomingInstanceMappingService implements InstanceMapper<IncomingInstance> {
     @Override
-    public Mono<InstanceObject> map(Long sourceApplicationId, IncomingInstance incomingInstance) {
+    public Mono<InstanceObject> map(
+            Long sourceApplicationId,
+            IncomingInstance incomingInstance,
+            Function<File, Mono<UUID>> persistFile
+    ) {
         Map<String, String> valuePerKey = getStringStringMap(incomingInstance);
         return Mono.just(
                 InstanceObject.builder()
