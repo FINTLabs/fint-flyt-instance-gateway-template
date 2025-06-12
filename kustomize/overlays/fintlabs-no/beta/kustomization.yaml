@@ -5,9 +5,10 @@ namespace: fintlabs-no
 resources:
   - ../../../base
 
-commonLabels:
-  app.kubernetes.io/instance: fint-flyt-sourceapplication-instance-gateway_fintlabs_no
-  fintlabs.no/org-id: fintlabs.no
+labels:
+  - pairs:
+      app.kubernetes.io/instance: fint-flyt-sourceapplication-instance-gateway_fintlabs_no
+      fintlabs.no/org-id: fintlabs.no
 
 patches:
   - patch: |-
@@ -23,6 +24,9 @@ patches:
       - op: replace
         path: "/spec/ingress/basePath"
         value: "/beta/api/sourceapplication/instances/999999999"
+      - op: replace
+        path: "/spec/probes/readiness/path"
+        value: "/beta/actuator/health"
     target:
       kind: Application
       name: fint-flyt-sourceapplication-instance-gateway
