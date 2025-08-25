@@ -36,3 +36,6 @@ out/
 .vscode/
 
 .DS_Store
+
+db-data/
+ldap-data/
