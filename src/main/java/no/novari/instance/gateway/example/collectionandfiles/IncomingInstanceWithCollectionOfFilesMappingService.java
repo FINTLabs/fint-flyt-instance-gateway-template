@@ -1,15 +1,19 @@
-package no.fintlabs.instance.gateway.example.collectionandfiles;
+package no.novari.instance.gateway.example.collectionandfiles;
 
-import no.fintlabs.gateway.instance.InstanceMapper;
-import no.fintlabs.gateway.instance.model.File;
-import no.fintlabs.gateway.instance.model.instance.InstanceObject;
+import no.novari.flyt.instance.gateway.InstanceMapper;
+import no.novari.flyt.instance.gateway.model.File;
+import no.novari.flyt.instance.gateway.model.InstanceObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Function;
 
 @Service

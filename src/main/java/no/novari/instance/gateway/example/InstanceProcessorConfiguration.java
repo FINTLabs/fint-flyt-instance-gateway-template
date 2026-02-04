@@ -1,11 +1,11 @@
-package no.fintlabs.instance.gateway.example;
+package no.novari.instance.gateway.example;
 
-import no.fintlabs.gateway.instance.InstanceProcessor;
-import no.fintlabs.gateway.instance.InstanceProcessorFactoryService;
-import no.fintlabs.instance.gateway.example.collectionandfiles.IncomingInstanceWithCollectionOfFiles;
-import no.fintlabs.instance.gateway.example.collectionandfiles.IncomingInstanceWithCollectionOfFilesMappingService;
-import no.fintlabs.instance.gateway.example.simple.IncomingInstance;
-import no.fintlabs.instance.gateway.example.simple.IncomingInstanceMappingService;
+import no.novari.flyt.instance.gateway.InstanceProcessor;
+import no.novari.flyt.instance.gateway.InstanceProcessorFactoryService;
+import no.novari.instance.gateway.example.collectionandfiles.IncomingInstanceWithCollectionOfFiles;
+import no.novari.instance.gateway.example.collectionandfiles.IncomingInstanceWithCollectionOfFilesMappingService;
+import no.novari.instance.gateway.example.simple.IncomingInstance;
+import no.novari.instance.gateway.example.simple.IncomingInstanceMappingService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -1,8 +1,8 @@
-package no.fintlabs.instance.gateway.example;
+package no.novari.instance.gateway.example;
 
-import no.fintlabs.gateway.instance.InstanceProcessor;
-import no.fintlabs.instance.gateway.example.collectionandfiles.IncomingInstanceWithCollectionOfFiles;
-import no.fintlabs.instance.gateway.example.simple.IncomingInstance;
+import no.novari.flyt.instance.gateway.InstanceProcessor;
+import no.novari.instance.gateway.example.collectionandfiles.IncomingInstanceWithCollectionOfFiles;
+import no.novari.instance.gateway.example.simple.IncomingInstance;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import static no.fintlabs.resourceserver.UrlPaths.EXTERNAL_API;
+import static no.novari.flyt.resourceserver.UrlPaths.EXTERNAL_API;
 
 @RestController
 @RequestMapping(EXTERNAL_API + "/sourceapplication/instances")

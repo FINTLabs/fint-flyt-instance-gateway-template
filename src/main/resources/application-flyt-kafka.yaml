@@ -1,9 +1,10 @@
-fint:
+novari:
   kafka:
     topic:
       org-id: ${fint.org-id}
       domain-context: flyt
     application-id: ${fint.application-id}
+
 spring:
   kafka:
     consumer:
