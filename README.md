@@ -39,4 +39,3 @@ For more detailed instructions on setting up and deploying your instance of the 
 https://fintlabs.atlassian.net/wiki/spaces/FINTKB/pages/379355169/FINT+Flyt+Arkitektur+event+driven
 
 This is also where you document the SourceApplication (data models, requests, endpoints etc)
-
